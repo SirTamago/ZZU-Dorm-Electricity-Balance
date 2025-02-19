@@ -183,7 +183,7 @@ def main():
 
     report_content = NotificationManager.format_balance_report(balances["lt_Balance"], balances["ac_Balance"])
 
-    if balances['lt_Balance'] <= THRESHOLD or balances['ac_Balance'] <= THRESHOLD:
+    if balances['lt_Balance'] <= THRESHOLD # or balances['ac_Balance'] <= THRESHOLD:
         report_content += "⚠️ 电量不足，请尽快充电！"
         NotificationManager.notify_admin("⚠️宿舍电量预警⚠️", report_content)
     else:
