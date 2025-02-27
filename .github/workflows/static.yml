@@ -52,10 +52,6 @@ jobs:
         id: check_changes
         run: echo "changes=$(git diff --shortstat HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Get last commit message
-        id: commit_message
-        run: echo "last_commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
-
       - name: Push changes
         if: ${{ steps.check_changes.outputs.changes != '' && !startsWith(steps.commit_message.outputs.last_commit_message, 'Updated at ') }}
         run: |
