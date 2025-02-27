@@ -1,3 +1,5 @@
+新增邮件支持
+
 # ZZU Dorm Electricity Balance
 
 ## 项目简介
