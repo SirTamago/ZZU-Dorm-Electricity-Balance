@@ -27,6 +27,10 @@ ac_room = os.getenv("ac_room")
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 SERVERCHAN_KEYS = os.getenv("SERVERCHAN_KEYS")
+COLA_KEY = os.getenv("COLA_KEY")
+MAIL = os.getenv("EMAIL")
+SMTP_CODE = os.getenv("SMTP_CODE")
+SMTP_CODE_TTYPE = os.getenv("SMTP_CODE_TTYPE")
 
 class EnergyMonitor:
     def __init__(self):
@@ -70,7 +74,7 @@ class NotificationManager:
 
     @staticmethod
     def notify_admin(title, content):
-        """通过 Server 酱和 Telegram 发送通知"""
+        """通过 Server 酱、邮件和 Telegram 发送通知"""
         logger.info("准备发送通知...")
 
         if "⚠️警告" in content:
@@ -85,6 +89,27 @@ class NotificationManager:
                         logger.info(f"Server 酱通知发送成功，使用的密钥：{key}")
                     else:
                         logger.error(f"Server 酱通知发送失败，错误信息：{result.get('message')}")
+                        
+            logger.info("电量低于阈值，通过邮件发送通知...")
+            response = requests.post(
+                'https://luckycola.com.cn/tools/customMail', 
+                json={
+                    "ColaKey": COLA_KEY,
+                    "tomail": MAIL,
+                    "fromTitle": title,
+                    "subject": title,
+                    "smtpCode": SMTP_CODE,
+                    "smtpEmail": MAIL,
+                    "smtpCodeType": SMTP_CODE_TYPE,
+                    "isTextContent": False,
+                    "content": content
+                }
+            )
+            result = response.json()
+            if result.get("code") == 0:
+                logger.info(f"邮件通知发送成功")
+            else:
+                logger.error(f"邮件通知发送失败，错误信息：{result.get('msg')}")
 
         logger.info("通过 Telegram 发送通知...")
         NotificationManager.notify_telegram(title, content)
