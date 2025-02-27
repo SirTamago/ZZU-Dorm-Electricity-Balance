@@ -1,4 +1,4 @@
-新增邮件支持
+### 新增邮件支持
 
 # ZZU Dorm Electricity Balance
 
