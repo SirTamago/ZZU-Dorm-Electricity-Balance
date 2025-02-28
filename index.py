@@ -7,6 +7,8 @@ from zzupy import ZZUPy
 import requests
 import json
 import os
+import smtplib
+from email.mime.text import MIMEText
 
 # 配置日志
 logging.basicConfig(level=logging.INFO)
@@ -30,7 +32,7 @@ SERVERCHAN_KEYS = os.getenv("SERVERCHAN_KEYS")
 COLA_KEY = os.getenv("COLA_KEY")
 MAIL = os.getenv("EMAIL")
 SMTP_CODE = os.getenv("SMTP_CODE")
-SMTP_CODE_TTYPE = os.getenv("SMTP_CODE_TTYPE")
+SMTP_SERVER = os.getenv("SMTP_SERVER")
 
 class EnergyMonitor:
     def __init__(self):
@@ -89,27 +91,29 @@ class NotificationManager:
                         logger.info(f"Server 酱通知发送成功，使用的密钥：{key}")
                     else:
                         logger.error(f"Server 酱通知发送失败，错误信息：{result.get('message')}")
-                        
+
+            
             logger.info("电量低于阈值，通过邮件发送通知...")
-            response = requests.post(
-                'https://luckycola.com.cn/tools/customMail', 
-                json={
-                    "ColaKey": COLA_KEY,
-                    "tomail": MAIL,
-                    "fromTitle": title,
-                    "subject": title,
-                    "smtpCode": SMTP_CODE,
-                    "smtpEmail": MAIL,
-                    "smtpCodeType": SMTP_CODE_TYPE,
-                    "isTextContent": False,
-                    "content": content
-                }
-            )
-            result = response.json()
-            if result.get("code") == 0:
-                logger.info(f"邮件通知发送成功")
-            else:
-                logger.error(f"邮件通知发送失败，错误信息：{result.get('msg')}")
+            msg = MIMEText(content, 'plain', 'utf-8')
+
+            msg['Subject'] = title
+            msg['From'] = EMAIL
+            msg['To'] = EMAIL
+
+            try:
+                client = smtplib.SMTP_SSL(SMTP_SERVER, smtplib.SMTP_SSL_PORT)
+                logger.info("连接到邮件服务器成功")
+            
+                client.login(MAIL, SMTP_CODE)
+                logger.info("登录成功")
+            
+                client.sendmail(MAIL, MAIL, msg.as_string())
+                logger.info("发送成功")
+                
+            except smtplib.SMTPException as e:
+                logger.error("发送邮件异常")
+            finally:
+                client.quit()
 
         logger.info("通过 Telegram 发送通知...")
         NotificationManager.notify_telegram(title, content)
