@@ -41,7 +41,6 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           SERVERCHAN_KEYS: ${{ secrets.SERVERCHAN_KEY }},${{ secrets.SERVERCHAN_KEY2 }},${{ secrets.SERVERCHAN_KEY3 }}
-          COLA_KEY: ${{ secrets.COLA_KEY }}
           SMTP_CODE: ${{ secrets.SMTP_CODE }}
           SMTP_CODE_TYPE: ${{ secrets.SMTP_CODE_TYPE }}
         run: |
