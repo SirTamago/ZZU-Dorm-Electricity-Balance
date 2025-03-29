@@ -29,7 +29,7 @@ ac_room = os.getenv("ac_room")
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 SERVERCHAN_KEYS = os.getenv("SERVERCHAN_KEYS")
-EMAIL = os.getenv("EMAIL")
+MAIL = os.getenv("EMAIL")
 SMTP_CODE = os.getenv("SMTP_CODE")
 SMTP_SERVER = os.getenv("SMTP_SERVER")
 
@@ -96,8 +96,8 @@ class NotificationManager:
             msg = MIMEText(content, 'plain', 'utf-8')
 
             msg['Subject'] = title
-            msg['From'] = EMAIL
-            msg['To'] = EMAIL
+            msg['From'] = MAIL
+            msg['To'] = MAIL
 
             try:
                 client = smtplib.SMTP_SSL(SMTP_SERVER, smtplib.SMTP_SSL_PORT)
