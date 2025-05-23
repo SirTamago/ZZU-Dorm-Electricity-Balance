@@ -1,5 +1,5 @@
 PyNaCl
 Requests
-Zzupy
+Zzupy>=5.1.0
 Pytz
 PyEmail
