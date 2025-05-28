@@ -1,4 +1,6 @@
-### 新增邮件支持
+在最初的项目的基础上新增了：
+- 邮件提醒支持
+- Actions重试机制（因为网络问题导致有概率登录失败）
 
 # ZZU Dorm Electricity Balance
 
