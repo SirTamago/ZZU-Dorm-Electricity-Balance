@@ -48,7 +48,7 @@ class EnergyMonitor:
     #     ac_balance = self.zzupy.eCard.get_remaining_power(ac_room)
     #     logger.info(f"照明剩余电量：{lt_balance} 度，空调剩余电量：{ac_balance} 度")
     #     return {"lt_Balance": lt_balance, "ac_Balance": ac_balance}
-    def get_energy_balance(self, max_retries: int = 5, retry_delay: float = 2.0):
+    def get_energy_balance(self, max_retries: int = 10, retry_delay: float = 2.0):
         """使用 ZZUPy 获取电量余额，支持失败重试"""
     
         for attempt in range(1, max_retries + 1):
