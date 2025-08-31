@@ -53,5 +53,10 @@
         "time": "08-31 15:21:56",
         "lt_Balance": 10.44,
         "ac_Balance": 13.14
+    },
+    {
+        "time": "08-31 18:23:32",
+        "lt_Balance": 9.44,
+        "ac_Balance": 11.14
     }
 ]
