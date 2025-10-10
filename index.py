@@ -3,7 +3,8 @@ from os import makedirs, path
 from glob import glob
 from datetime import datetime
 import pytz
-from zzupy import ZZUPy
+# from zzupy import ZZUPy
+from zzupy.app import CASClient, ECardClient
 import requests
 import json
 import os
@@ -36,7 +37,7 @@ SMTP_SERVER = os.getenv("SMTP_SERVER")
 
 class EnergyMonitor:
     def __init__(self):
-        self.zzupy = ZZUPy(ACCOUNT, PASSWORD)
+        self.cas = CASClient(ACCOUNT, PASSWORD)
 
     # def get_energy_balance(self):
     #     """使用 ZZUPy 库获取电量余额"""
@@ -53,13 +54,19 @@ class EnergyMonitor:
     
         for attempt in range(1, max_retries + 1):
             try:
-                logger.info(f"[第 {attempt} 次尝试] 登录 ZZUPy 系统...")
-                self.zzupy.login()
-                logger.info("登录成功")
+                logger.info(f"[第 {attempt} 次尝试] 登录统一认证系统...")
+                self.cas.login()
+                logger.info("统一认证登录成功")
+
+                logger.info(f"[第 {attempt} 次尝试] 登录一卡通系统...")
+                with ECardClient(cas) as ecard:
+                    ecard.login()
+                    logger.info("一卡通系统登录成功")
+
     
                 logger.info("获取照明和空调电量余额...")
-                lt_balance = self.zzupy.eCard.get_remaining_power(lt_room)
-                ac_balance = self.zzupy.eCard.get_remaining_power(ac_room)
+                lt_balance = self.ecard.get_remaining_energy(lt_room)
+                ac_balance = self.ecard.get_remaining_energy(ac_room)
                 logger.info(f"照明剩余电量：{lt_balance} 度，空调剩余电量：{ac_balance} 度")
     
                 return {"lt_Balance": lt_balance, "ac_Balance": ac_balance}
