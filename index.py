@@ -53,10 +53,9 @@ class EnergyMonitor:
                     ecard.login()
                     logger.info("一卡通系统登录成功")
 
-    
                     logger.info("获取照明和空调电量余额...")
-                    lt_balance = self.ecard.get_remaining_energy(lt_room)
-                    ac_balance = self.ecard.get_remaining_energy(ac_room)
+                    lt_balance = ecard.get_remaining_energy(lt_room)
+                    ac_balance = ecard.get_remaining_energy(ac_room)
                     logger.info(f"照明剩余电量：{lt_balance} 度，空调剩余电量：{ac_balance} 度")
         
                     return {"lt_Balance": lt_balance, "ac_Balance": ac_balance}
