@@ -39,16 +39,6 @@ class EnergyMonitor:
     def __init__(self):
         self.cas = CASClient(ACCOUNT, PASSWORD)
 
-    # def get_energy_balance(self):
-    #     """使用 ZZUPy 库获取电量余额"""
-    #     logger.info("尝试登录 ZZUPy 系统...")
-    #     self.zzupy.login()
-    #     logger.info("登录成功")
-    #     logger.info("获取照明和空调电量余额...")
-    #     lt_balance = self.zzupy.eCard.get_remaining_power(lt_room)
-    #     ac_balance = self.zzupy.eCard.get_remaining_power(ac_room)
-    #     logger.info(f"照明剩余电量：{lt_balance} 度，空调剩余电量：{ac_balance} 度")
-    #     return {"lt_Balance": lt_balance, "ac_Balance": ac_balance}
     def get_energy_balance(self, max_retries: int = 10, retry_delay: float = 10.0):
         """使用 ZZUPy 获取电量余额，支持失败重试"""
     
@@ -59,17 +49,17 @@ class EnergyMonitor:
                 logger.info("统一认证登录成功")
 
                 logger.info(f"[第 {attempt} 次尝试] 登录一卡通系统...")
-                with ECardClient(cas) as ecard:
+                with ECardClient(self.cas) as ecard:
                     ecard.login()
                     logger.info("一卡通系统登录成功")
 
     
-                logger.info("获取照明和空调电量余额...")
-                lt_balance = self.ecard.get_remaining_energy(lt_room)
-                ac_balance = self.ecard.get_remaining_energy(ac_room)
-                logger.info(f"照明剩余电量：{lt_balance} 度，空调剩余电量：{ac_balance} 度")
-    
-                return {"lt_Balance": lt_balance, "ac_Balance": ac_balance}
+                    logger.info("获取照明和空调电量余额...")
+                    lt_balance = self.ecard.get_remaining_energy(lt_room)
+                    ac_balance = self.ecard.get_remaining_energy(ac_room)
+                    logger.info(f"照明剩余电量：{lt_balance} 度，空调剩余电量：{ac_balance} 度")
+        
+                    return {"lt_Balance": lt_balance, "ac_Balance": ac_balance}
     
             except Exception as e:
                 logger.warning(f"第 {attempt} 次尝试失败：{e}")
