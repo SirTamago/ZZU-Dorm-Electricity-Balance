@@ -1,10 +1,5 @@
 [
     {
-        "time": "04-29 19:45:15",
-        "lt_Balance": 36.54,
-        "ac_Balance": 40.84
-    },
-    {
         "time": "04-29 23:21:10",
         "lt_Balance": 34.64,
         "ac_Balance": 39.84
@@ -148,5 +143,10 @@
         "time": "05-06 14:37:07",
         "lt_Balance": 106.34,
         "ac_Balance": 1.84
+    },
+    {
+        "time": "05-06 17:30:50",
+        "lt_Balance": 104.34,
+        "ac_Balance": 70.34
     }
 ]
